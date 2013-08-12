@@ -33,7 +33,7 @@ if (!$con)
   }
 
 
-if (mysql_query("CREATE DATABASE IF NOT EXISTS" . $database,$con))
+if (mysql_query("CREATE DATABASE IF NOT EXISTS " . $database,$con))
   {
   echo "<br>Database was created as " . $database;
   }
