@@ -1,5 +1,5 @@
 <?php
-require ('dbconnect.php');
+require_once __DIR__ . '/admin/dbconnect.php';
 
 $maxdownloads = "2";
 $maxtime = "7200";

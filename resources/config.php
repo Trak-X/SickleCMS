@@ -16,10 +16,10 @@ return array(
         'analytics.inc',
 	'README.md',
 	'private',
+	'admin',
 	'dbconnect.php',
 	'download.php',
 	'getdownload.php',
-	'install.php'
     ),
 
     // Custom sort order

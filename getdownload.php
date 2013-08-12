@@ -1,7 +1,7 @@
 <?php
 // A script to generate unique download keys for the purpose of protecting downloadable goods
 
-require ('dbconnect.php');
+require_once __DIR__ . '/admin/dbconnect.php';
 
 	// Get the filename given by directory linker
 	$fileget = $_GET["file"];
