@@ -5,7 +5,7 @@ $host = 'localhost';
 $user = 'root';
 $password = 'Password';
 //The name of the database you are going to use
-$dbname = 'FileDownloads';
+$dbname = 'SickleCMS';
 
 // Connect to database  using: dbname , username , password
 	$link = mysql_connect($host, $user, $password) or die("Could not connect: " . mysql_error());

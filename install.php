@@ -8,6 +8,7 @@
     Username: <input type="text" name="user" value="root">
     <br>Password: <input type="password" name="password">
     <br>Host: <input type="text" name="host" value="localhost">
+    <br>Database Name <input type="text" name="database" valuse="SickleCMS">
     <br><input type="submit" value="Start Install!">
   </form>
 </body>
@@ -17,6 +18,7 @@
 $hostname = $_POST['host'];
 $username = $_POST['user'];
 $password = $_POST['password'];
+$database = $_POST['database'];
 
 if ($password == "")
 {
@@ -31,23 +33,22 @@ if (!$con)
   }
 
 
-if (mysql_query("CREATE DATABASE IF NOT EXISTS FileDownloads",$con))
+if (mysql_query("CREATE DATABASE IF NOT EXISTS" . $database,$con))
   {
-  echo "<br>Database was created!";
+  echo "<br>Database was created as " . $database;
   }
 else
   {
   echo "<br>Error creating database: " . mysql_error();
   }
 
-mysql_select_db("FileDownloads", $con);
+mysql_select_db($database, $con);
 
 $dltbl = "CREATE TABLE downloadkey
 (
 uniqueid varchar(255) NOT NULL default '',
 timestamp varchar(255) NOT NULL default '',
 filename varchar(255) NOT NULL default '',
-downloads varchar(255) NOT NULL default '0'
 )";
 mysql_query($dltbl,$con);
 
@@ -58,20 +59,14 @@ md5 varchar(255) NOT NULL default ''
 )";
 mysql_query($md5tbl,$con);
 
-$reftbl = "CREATE TABLE referer
+$dlcnttbl = "CREATE TABLE dlcount
 (
-referer varchar(255) NOT NULL default '',
-count varchar(255) NOT NULL default '',
+filename varchar(500) NOT NULL default '',
+count varchar(500) NOT NULL default '0'
 )";
-mysql_query($reftbl,$con);
 
 mysql_close($con);
 echo "<br>WARNING YOU MUST REMOVE THIS FILE OR SUFFER THE CONSEQUINCES!!!";
-
-$str=file_get_contents('dbconnect.php');
-$str=str_replace("Password", $password,$str);
-$str=str_replace("root", $username,$str);
-file_put_contents("dbconnect.php", $str);
 
 }
 ?>
