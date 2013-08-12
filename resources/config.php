@@ -13,7 +13,13 @@ return array(
         '.htaccess',
         '.htpasswd',
         'resources',
-        'analytics.inc'
+        'analytics.inc',
+	'README.md',
+	'private',
+	'dbconnect.php',
+	'download.php',
+	'getdownload.php',
+	'install.php'
     ),
 
     // Custom sort order

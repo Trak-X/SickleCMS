@@ -74,7 +74,7 @@
 
                 <?php foreach($dirArray as $name => $fileInfo): ?>
                     <li class="clearfix" data-name="<?php echo $name; ?>" data-href="<?php echo $fileInfo['file_path']; ?>">
-                        <a href="<?php echo $fileInfo['file_path']; ?>" class="clearfix" data-name="<?php echo $name; ?>">
+                        <a href="<?php if (is_file($fileInfo['file_path'])) { echo "getdownload.php?file=".$fileInfo['file_path']; } else { echo $fileInfo['file_path']; } ?>" class="clearfix" data-name="<?php echo $name; ?>">
 
                             <span class="file-name">
                                 <span class="icon-wrapper">
@@ -110,7 +110,7 @@
             <hr>
 
             <div class="footer">
-                <p>Powered by, <a href="http://www.directorylister.com">Directory Lister</a></p>
+                <p>Powered by, <a href="http://simonsickle.com">SickleCMS</a></p>
             </div>
 
         </div>
