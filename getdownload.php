@@ -1,7 +1,7 @@
 <?php
 // A script to generate unique download keys for the purpose of protecting downloadable goods
 
-require_once __DIR__ . '/admin/dbconnect.php';
+require ('dbconnect.php');
 
 	// Get the filename given by directory linker
 	$fileget = $_GET["file"];
@@ -50,23 +50,66 @@ function curPageURL() {
 
 ?>
 
-<!DOCTYPE html>
-  <head>
-    <title>SickleCMS</title>
+<DOCUTYPE html>
+<head>
+<title> Sick Files </title>
+<script type="text/javascript">
+                    window.setTimeout(function() {
+                        location.href = 'index.php';
+                    }, 10000);
+</script>
+</head>
+<body>
+<p>
+<center>
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- files.simonsickle.com -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-1176090905311710"
+     data-ad-slot="4540635854"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+<?php
+$filename = basename($file);
+echo "<a href=\"$data\">$filename</a>";
+echo "<br><br>";
 
-    <script type="text/javascript">
-      window.setTimeout(function() {
-        location.href = 'index.php';
-      }, 10000);
-    </script>
+//Get MD5. Create and save if not in database already
+$query = sprintf("SELECT * FROM md5sums WHERE filename= '%s'",
+mysql_real_escape_string($file));
+$result = mysql_query($query) or die(mysql_error());
+$row = mysql_fetch_array($result);
+        if (!$row) {
+                $md5 = md5_file($file);
+                $sqlread = mysql_query("INSERT INTO md5sums (filename,md5) VALUES(\"$file\",\"$md5\")") or die(mysql_error());
+                echo "MD5: " . $md5;
+        }else{
+                echo "MD5: " . $row['md5'];
+}
 
-  </head>
-  <body>
-    <center>
-      <p>Click here if you are not redirected automatically in 10 seconds
-      <br><a href="index.php">Get More Files</a></p>
-      <?php
-        echo '<META HTTP-EQUIV="Refresh" Content="2; URL=download.php?id=' . $key . '">';
-      ?>
-  </body>
+echo "<br><br>";
+echo "Redirecting in 10 seconds"; ?> </p>
+
+<p>Click here if you are not redirected automatically in 10 seconds<br/>
+            <a href="index.php">Get More Files</a>.
+</p>
+<?php
+// Redirect to the download
+echo '<META HTTP-EQUIV="Refresh" Content="2; URL=download.php?id=' . $key . '">';
+//show HTML below for 5 seconds
+?>
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- files.simonsickle.com -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-1176090905311710"
+     data-ad-slot="4540635854"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center>
+</body>
 </html>

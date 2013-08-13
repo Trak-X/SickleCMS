@@ -28,45 +28,57 @@ if ($password == "")
 if ($username != "" && $hostname != "" && $password != "") {
 $con = mysql_connect($hostname,$username,$password);
 if (!$con)
-  {
+{
   die('Could not connect: ' . mysql_error());
-  }
+}
 
 
-if (mysql_query("CREATE DATABASE IF NOT EXISTS " . $database,$con))
-  {
+if (mysql_query("CREATE DATABASE IF NOT EXISTS " . $database, $con))
+{
   echo "<br>Database was created as " . $database;
-  }
-else
-  {
+} else {
   echo "<br>Error creating database: " . mysql_error();
-  }
+}
 
 mysql_select_db($database, $con);
 
-$dltbl = "CREATE TABLE downloadkey
+if (mysql_query("CREATE TABLE downloadkey
 (
-uniqueid varchar(255) NOT NULL default '',
-timestamp varchar(255) NOT NULL default '',
+uniqueid varchar(500) NOT NULL default '',
+timestamp varchar(100) NOT NULL default '',
 filename varchar(255) NOT NULL default '',
-)";
-mysql_query($dltbl,$con);
+downloads varchar(100) NOT NULL default '0'
+)", $con))
+{
+      echo "<br> Created table downloadkey";
+    } else {
+      echo "<br> Error creating table downloadkey. " . mysql_error();
+}
 
-$md5tbl = "CREATE TABLE md5sums
+if (mysql_query("CREATE TABLE md5sums
 (
 filename varchar(255) NOT NULL default '',
 md5 varchar(255) NOT NULL default ''
-)";
-mysql_query($md5tbl,$con);
+)", $con))
+{
+    echo "<br> Created table md5sums";
+} else {
+    echo "<br> Error creating table md5sums " . mysql_error();
+}
 
-$dlcnttbl = "CREATE TABLE dlcount
+if (mysql_query("CREATE TABLE dlcount
 (
 filename varchar(500) NOT NULL default '',
 count varchar(500) NOT NULL default '0'
-)";
+)", $con))
+{
+    echo "<br> Created table dlcount";
+} else {
+    echo "<br> Error creating table dlcount " . mysql_error();
+}
 
 mysql_close($con);
-echo "<br>WARNING YOU MUST REMOVE THIS FILE OR SUFFER THE CONSEQUINCES!!!";
 
+echo "<br>WARNING YOU MUST REMOVE THIS FILE OR SUFFER THE CONSEQUINCES!!!";
 }
 ?>
