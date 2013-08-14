@@ -439,7 +439,7 @@ class DirectoryLister {
                         // Add the info to the main array
                         $directoryArray[pathinfo($relativePath, PATHINFO_BASENAME)] = array(
                             'file_path'  => $filePath,
-                            'file_size'  => is_dir($realPath) ? '-' : round(filesize($realPath) / 1024) . 'KB',
+                            'file_size'  => is_dir($realPath) ? '-' : round(filesize($realPath) / 1024 / 1024, 1) . 'MB',
                             'mod_time'   => date('Y-m-d H:i:s', filemtime($realPath)),
                             'icon_class' => $iconClass,
                             'sort'       => $sort
