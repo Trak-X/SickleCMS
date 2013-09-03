@@ -78,6 +78,7 @@ echo "<a href=\"$data\">$filename</a>";
 echo "<br><br>";
 
 //Get MD5. Create and save if not in database already
+/*
 $query = sprintf("SELECT * FROM md5sums WHERE filename= '%s'",
 mysql_real_escape_string($file));
 $result = mysql_query($query) or die(mysql_error());
@@ -91,6 +92,7 @@ $row = mysql_fetch_array($result);
 }
 
 echo "<br><br>";
+*/
 echo "Redirecting in 10 seconds"; ?> </p>
 
 <p>Click here if you are not redirected automatically in 10 seconds<br/>
