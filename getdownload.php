@@ -8,7 +8,9 @@ require_once __DIR__ . '/admin/dbconnect.php';
 
 	// Prevent downloading outside of directory listing bounds
 	if (substr($fileget, 0, 1) == '/') {
-		$file = substr($fileget, 1);
+		echo("Are you trying to do something very, verry naughty?");
+	} elseif (substr($fileget, 0, 1) == '..') {
+		echo("Are you trying to do something very, verry naughty?");
 	} else {
 		$file = $fileget;
 	}
@@ -73,9 +75,13 @@ function curPageURL() {
 </script>
 <br>
 <?php
-$filename = basename($file);
-echo "<a href=\"$data\">$filename</a>";
-echo "<br><br>";
+if ($file != ""){
+	$filename = basename($file);
+	echo "<a href=\"$data\">$filename</a><br><br>";
+} else {
+	echo "<p>Error: File NOT found.... Yeah, its just not there bud. Let me check again... Nope just try again.<p><br><br>";
+}
+
 
 //Get MD5. Create and save if not in database already
 /*
@@ -100,7 +106,11 @@ echo "Redirecting in 10 seconds"; ?> </p>
 </p>
 <?php
 // Redirect to the download
-echo '<META HTTP-EQUIV="Refresh" Content="2; URL=download.php?id=' . $key . '">';
+if ($file != "") {
+	echo '<META HTTP-EQUIV="Refresh" Content="2; URL=download.php?id=' . $key . '">';
+} else {
+	echo "Download isn't going to happen! What a shame.";
+}
 //show HTML below for 5 seconds
 ?>
 <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
