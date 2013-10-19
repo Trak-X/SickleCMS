@@ -9,7 +9,7 @@ require_once __DIR__ . '/admin/dbconnect.php';
 	// Prevent downloading outside of directory listing bounds
 	if (substr($fileget, 0, 1) == '/') {
 		echo("Are you trying to do something very, verry naughty?");
-	} elseif (substr($fileget, 0, 1) == '..') {
+	} elseif (substr($fileget, 0, 3) == '../') {
 		echo("Are you trying to do something very, verry naughty?");
 	} else {
 		$file = $fileget;
