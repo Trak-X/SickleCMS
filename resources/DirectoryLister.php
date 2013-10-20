@@ -16,7 +16,7 @@
 class DirectoryLister {
 
     // Define application version
-    const VERSION = '2.2.5';
+    const VERSION = '2.3.0';
 
     // Reserve some variables
     protected $_themeName     = null;
@@ -25,6 +25,7 @@ class DirectoryLister {
     protected $_appURL        = null;
     protected $_config        = null;
     protected $_systemMessage = null;
+    protected $_logFile       = null;
 
 
     /**
@@ -51,6 +52,16 @@ class DirectoryLister {
             $this->_config = require_once($configFile);
         } else {
             $this->setSystemMessage('error', '<b>ERROR:</b> Unable to locate application config file');
+        }
+
+        // Load the download log file
+        $log = $this->_appDir . '/downloads';
+
+        // Set the download count to a global variable
+        if (file_exists($log) && is_writable($log)) {
+            $this->_logFile = $log;
+        } else {
+            $this->setSystemMessage('error', '<b>ERROR:</b> Unable to locate download log file');
         }
 
         // Set the theme name
@@ -209,6 +220,22 @@ class DirectoryLister {
             return false;
         }
     }
+
+        /**
+         * Get total download count.
+         *
+         * @return download number
+         * @access public
+         */
+       public function getTotalDownloads() {
+
+                // Get fresh download count data
+                $dllog = $this->_read_log();
+
+                // Get total download count
+                $totaldls = array_sum($dllog);
+                return $totaldls;
+        }
 
 
     /**
@@ -369,6 +396,9 @@ class DirectoryLister {
         // Get directory contents
         $files = scandir($directory);
 
+        // Get fresh download count data
+        $dllog = $this->_read_log();
+
         // Read files/folders from the directory
         foreach ($files as $file) {
 
@@ -428,6 +458,12 @@ class DirectoryLister {
 
                     // Add all non-hidden files to the array
                     if ($this->_directory != '.' || $file != 'index.php') {
+                        // Get download counts
+                        if (@array_key_exists($relativePath,$dllog)) {
+                            $downloads = $dllog[$relativePath];
+                        } else {
+                            $downloads = '0';
+                        }
 
                         // Build the file path
                         if (is_dir($relativePath)) {
@@ -440,6 +476,7 @@ class DirectoryLister {
                         $directoryArray[pathinfo($relativePath, PATHINFO_BASENAME)] = array(
                             'file_path'  => $filePath,
                             'file_size'  => is_dir($realPath) ? '-' : round(filesize($realPath) / 1024 / 1024, 1) . 'MB',
+                            'file_downloads' => is_dir($realPath) ? '-' : $downloads,
                             'mod_time'   => date('Y-m-d H:i:s', filemtime($realPath)),
                             'icon_class' => $iconClass,
                             'sort'       => $sort
@@ -460,6 +497,35 @@ class DirectoryLister {
 
     }
 
+        // Function to read the log file, and return an array as (filename => downloads)
+        private function _read_log() {
+
+                // Declare Array for holding data read from log file
+                $name = array(); // array for file name
+                $count = array(); // array for file count
+
+                $file = @file($this->_logFile);
+                if(empty($file))
+                {
+                        return null;
+                }
+
+                // Read the entire contents of the log file into the arrays
+                $file = fopen($this->_logFile,"r");
+                while ($data = fscanf($file,"%[ -~]\t%d\n"))
+                {
+                        list ($temp1, $temp2) = $data;
+                        array_push($name,$temp1);
+                        array_push($count,$temp2);
+                }
+                fclose($file);
+                // $file_list contains data read from the log file as an array (filename => count)
+                $file_list=@array_combine($name,$count);
+                ksort($file_list); // Sorting it in alphabetical order of key
+
+                return $file_list;
+
+        }
 
     /**
      * Sorts an array by the provided sort method.
@@ -737,3 +803,4 @@ class DirectoryLister {
     }
 
 }
+

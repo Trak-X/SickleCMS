@@ -47,8 +47,7 @@ if (!$row) {
 			if ($downloads > $maxdownloads) {
 			echo "This key has expired (exceeded allowed downloads).<br />";
 				}else{
-					$sql = sprintf("UPDATE downloadkey SET downloads = '".$downloads."' WHERE uniqueid= 
-'%s'",
+					$sql = sprintf("UPDATE downloadkey SET downloads = '".$downloads."' WHERE uniqueid= '%s'",
 					mysql_real_escape_string($id, $link));
 					$incrementdownloads = mysql_query($sql) or die(mysql_error());
 					$path = getcwd();
@@ -68,9 +67,9 @@ if (!$row) {
 			$name = array();
 			$count = array();
 			// Create log file if it does not exist
-			touch("$path/resources/log");
+			touch($path."/resources/downloads");
 			// Open log file in read mode
-			$file = fopen("$path/resources/log","r");
+			$file = fopen($path."/resources/downloads","r");
 			// Read the entire contents of the file into the arrays
 			while ($data = fscanf($file,"%[ -~]\t%d\n"))
 			{
@@ -96,7 +95,7 @@ if (!$row) {
 			$list=array_combine($name,$count);
 			ksort($list);
 			// Open the file in write mode to clear all its contents
-			$file=fopen("$path/resources/log","w");
+			$file=fopen($path."/resources/downloads","w");
 
 			// For each key and value in the list, print to file
 			while (list($key, $val) = each($list))
