@@ -1,5 +1,10 @@
 <?php
+
 require_once __DIR__ . '/admin/dbconnect.php';
+
+protected $_config = null;
+
+$this->_config = require_once(__DIR__ . 'resources/config.php');
 
 $maxdownloads = "2";
 $maxtime = "7200";
@@ -54,6 +59,11 @@ if (!$row) {
                                         {
                                         	echo "Invalid File or File Not Specified";
                                                 exit(0);
+                                        }
+                                        
+                                        if (!in_array(pathinfo($fname)['extension'], _config['allowed_extensions'])) {
+                                        	echo "Contact the server admin, this file is banned!";
+                                       		exit(0);
                                         }
 
 			// Declare arrays for filename and count
