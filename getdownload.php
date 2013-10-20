@@ -54,7 +54,7 @@ function curPageURL() {
 
 <DOCUTYPE html>
 <head>
-<title><?php echo "Downloading" . $file; ?></title>
+<title><?php echo "Getting " . $file; ?></title>
 <script type="text/javascript">
                     window.setTimeout(function() {
                         location.href = 'index.php';
