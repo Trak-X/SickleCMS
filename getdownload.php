@@ -54,7 +54,7 @@ function curPageURL() {
 
 <DOCUTYPE html>
 <head>
-<title> Sick Files </title>
+<title><?php echo "Downloading" . $file; ?></title>
 <script type="text/javascript">
                     window.setTimeout(function() {
                         location.href = 'index.php';
